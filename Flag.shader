@@ -34,7 +34,6 @@ Shader "Unlit/Flag"
             {
                 float2 uv : TEXCOORD0;
                 float4 vertex : SV_POSITION;
-                float3 normal : TEXCOORD1;
             };
 
             sampler2D _MainTex;
@@ -46,7 +45,7 @@ Shader "Unlit/Flag"
                 float1 yOffset = sin((v.uv.y - _Time.y * .1))*.5+.5;
                 float1 tx = cos((v.uv.x + yOffset - _Time.y * _WaveSpeed) * TAU*_Frequency) *_Amplitude;
                 tx *= v.uv.x;
-                v.vertex.xyz += v.normal * tx;
+                v.vertex.xyz += tx.x + (tx.x * v.normal) * 2;
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 return o;
